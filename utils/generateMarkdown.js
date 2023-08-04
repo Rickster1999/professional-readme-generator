@@ -1,16 +1,48 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(license) {}
+const licenseLinks = {
+  MIT: ['MIT-yellow.svg', 'https://opensource.org/licenses/MIT'],
+  Mozilla: ['MPL_2.0-brightgreen.svg', 'https://opensource.org/licenses/MPL-2.0'],
+  ODbL: ['ODbL-brightgreen.svg', 'https://opendatacommons.org/licenses/odbl/'],
+  Apache: ['Apache_2.0-blue.svg', 'https://opensource.org/licenses/Apache-2.0'],
+  CC0: ['CC0_1.0-lightgrey.svg', 'http://creativecommons.org/publicdomain/zero/1.0/'],
+  IBM: ['IPL_1.0-blue.svg', 'https://opensource.org/licenses/IPL-1.0'],
+}
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {}
+function renderLicenseBadge(license) {
+  if (license) {
+    return `[![License](https://img.shields.io/badge/License-${licenseLinks[license][0]})]`
+    } else {
+    return ' ';
+    }
+  };
 
-// TODO: Create a function to generate markdown for README
+
+function renderLicenseLink(license) {
+  if (license !== 'No Licence') {
+    return `[${license} URL](${licenseLinks[license][1]})`
+  } else {
+    return ' ';
+  }
+};
+
+
+function renderLicenseSection(license) {
+  if (license !== 'No License') {
+    return `## License
+    This project uses the ${license} license. Click the link to view the license's webpage.`
+   } else {
+    return ' ';
+   }
+};
+
+function renderLicenseNavigation(license) {
+  if (license !== 'No License') {
+    return `- [License](#license)`
+  } else {
+    return ' ';
+  }
+};
+
 function generateMarkdown(data) {
   return `# ${data.title}
 ## Description
@@ -29,9 +61,10 @@ function generateMarkdown(data) {
   ## Installation
   ${data.installation}
   ## Usage
-  content
   ${data.usage}
-  ## License
+  ${renderLicenseSection(data.license)}
+  ${renderLicenseBadge(data.license)}
+  ${renderLicenseLink(data.license)}
   ## Contributing
   ${data.contributing}
   ## Tests
@@ -40,6 +73,8 @@ function generateMarkdown(data) {
   Visit my GitHub for more insight:  [${data.gitHub}'s GitHub](https://github.com/${data.gitHub}/)
   
   Please email me at [${data.email}](${data.email}) for further questions.`;
-}
+};
 
-module.exports = generateMarkdown;
+module.exports = {
+  generateMarkdown,
+};

@@ -1,12 +1,10 @@
-// TODO: Include packages needed for this application
+//packages
 const fs = require("fs");
 const inquirer = require("inquirer");
-const generateMarkdown = require("./utils/generateMarkdown");
-const questions = require("./utils/questions");
-const genMarkdown = require('./utils/generateMarkdown.js');
+const prompt = inquirer.createPromptModule();
+const {generateMarkdown, renderLicenseBadge ,renderLicenseSection} = require('./utils/generateMarkdown.js');
 
-
-// TODO: Create an array of questions for user input
+//questions for the readme
 const questions = [
     
     {
@@ -42,7 +40,7 @@ const questions = [
     {
         type: "list",
         message: "Choose the license for your project:",
-        choices: ["the MIT License", "Mozilla Public License 2.0", "Open Database License (ODbL)" ],
+        choices: ['MIT', 'Mozilla', 'ODbL', 'Apache', 'CC0', 'IBM', 'No License' ],
         name: "license",
         default: "the MIT License"
     },
@@ -58,16 +56,14 @@ const questions = [
     }
 ];
 
-prompt(questions).then((answers) => console.table(answers));
+// function to write the readme file
+function writeToFile(fileName, answers) {
+    fs.writeFileSync(fileName, generateMarkdown(answers));
+};
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {const markdown = genMarkdown(data);
-    fs.writeFileSync('new-README.md', markdown);}
-
-// TODO: Create a function to initialize app
 function init() {
-    prompt(questions).then((answers) => writeToFile('new-README.md', answers));
-}
+    prompt(questions).then((answers) => writeToFile('ex-README.md', answers));
+};
 
 // Function call to initialize app
-init();
+init(); 
